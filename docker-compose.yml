@@ -13,12 +13,21 @@ services:
     environment:
       - REDIS_HOST=redis
 
-
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
 
   redis:
     container_name: redis
     image: redis:5
     ports:
       - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
 
 
