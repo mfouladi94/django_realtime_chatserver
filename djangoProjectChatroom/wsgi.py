@@ -14,3 +14,15 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoProjectChatroom.settings')
 
 application = get_wsgi_application()
+
+
+import chat.routing
+
+application = ProtocolTypeRouter(
+    {
+        "http": application,
+        "websocket": AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(chat.routing.websocket_urlpatterns))
+        ),
+    }
+)

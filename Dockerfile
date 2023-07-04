@@ -17,4 +17,9 @@ COPY . /app/
 EXPOSE 8000
 
 # Start the Django app with Daphne and Redis
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "djangoProjectChatroom.asgi:application"]
+#CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "djangoProjectChatroom.asgi:application"]
+
+CMD ["gunicorn", "djangoProjectChatroom.asgi:application" ,  "--bind" , "0.0.0.0:8000" , "--worker-class=uvicorn.workers.UvicornWorker" ,"--workers=4"]
+
+
+#CMD ["gunicorn", "djangoProjectChatroom.asgi:application", "--bind","0.0.0.0", "-p", "8000", "-w","4"]
